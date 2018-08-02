@@ -1,5 +1,8 @@
 require "gem_config"
+require "sidekiq"
 require "message_bus_client_worker/version"
+require "message_bus_client_worker/workers/enqueuing_worker"
+require "message_bus_client_worker/workers/subscription_worker"
 
 module MessageBusClientWorker
 

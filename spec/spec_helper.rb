@@ -1,5 +1,6 @@
 require "bundler/setup"
 require "message_bus_client_worker"
+require "rspec-sidekiq"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
