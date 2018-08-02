@@ -1,0 +1,3 @@
+---
+chat_server_url: "http://chat:9292" # change to "http://localhost:9292" if running specs in the host
+redis_url: "redis://redis:6379" # change to redis://localhost if running specs in the host

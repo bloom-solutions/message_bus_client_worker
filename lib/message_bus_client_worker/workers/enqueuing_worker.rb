@@ -1,7 +1,7 @@
 module MessageBusClientWorker
   class EnqueuingWorker
 
-    include Sidekiq::Worker
+    include ::Sidekiq::Worker
     sidekiq_options retry: false
 
     def perform

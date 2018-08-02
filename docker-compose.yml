@@ -1,0 +1,47 @@
+version: "3.2"
+services:
+  redis:
+    image: redis:4.0.10
+    ports:
+      - "6379:6379"
+  gem:
+    build: .
+    command: bundle exec rspec spec
+    depends_on:
+      - redis
+      - sidekiq
+      - chat
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./:/gem
+      - gem_bundle:/bundle
+  chat:
+    build: spec/images/chat_server
+    command: bundle exec puma puma.ru
+    ports:
+      - "9292:9292"
+    volumes:
+      - chat_bundle:/bundle
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -r /gem/spec/support/sidekiq.rb
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./:/gem
+      - gem_bundle:/bundle
+  gem_bundle:
+    image: busybox
+    volumes:
+      - /bundle
+  chat_bundle:
+    image: busybox
+    volumes:
+      - /bundle
+volumes:
+  redis:
+  gem_bundle:
+  chat_bundle:
