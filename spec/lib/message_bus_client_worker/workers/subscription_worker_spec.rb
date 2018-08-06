@@ -10,7 +10,7 @@ module MessageBusClientWorker
         unique_message = SecureRandom.uuid
         Publish.("The Shins", "Port of Morrow - #{unique_message}")
 
-        described_class.new.perform(
+        described_class.(
           CONFIG[:chat_server_url],
           "/message",
           TestProc.to_s,
@@ -43,7 +43,7 @@ module MessageBusClientWorker
         message_1 = SecureRandom.uuid
         Publish.("First #{name_randomness}", message_1)
 
-        described_class.new.perform(
+        described_class.(
           CONFIG[:chat_server_url],
           "/message",
           TestProc.to_s,
@@ -53,7 +53,7 @@ module MessageBusClientWorker
         message_2 = SecureRandom.uuid
         Publish.("Second #{name_randomness}", message_2)
 
-        described_class.new.perform(
+        described_class.(
           CONFIG[:chat_server_url],
           "/message",
           SaverProcessor.to_s,
