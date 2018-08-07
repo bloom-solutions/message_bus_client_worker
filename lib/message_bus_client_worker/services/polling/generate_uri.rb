@@ -1,5 +1,5 @@
 module MessageBusClientWorker
-  module SubscriptionWorkers
+  module Polling
     class GenerateURI
       extend LightService::Action
 
