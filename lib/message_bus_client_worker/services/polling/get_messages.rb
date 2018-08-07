@@ -1,5 +1,5 @@
 module MessageBusClientWorker
-  module SubscriptionWorkers
+  module Polling
     class GetMessages
       extend LightService::Action
 

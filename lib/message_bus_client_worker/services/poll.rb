@@ -10,13 +10,13 @@ module MessageBusClientWorker
         processor_class_name: processor_class_name,
         long: long,
       ).reduce(
-        SubscriptionWorkers::GenerateClientId,
-        SubscriptionWorkers::GenerateURI,
-        SubscriptionWorkers::SetChannelIndices,
-        SubscriptionWorkers::GenerateParams,
-        SubscriptionWorkers::GetMessages,
-        SubscriptionWorkers::GetProcessor,
-        SubscriptionWorkers::ProcessMessages,
+        Polling::GenerateClientId,
+        Polling::GenerateURI,
+        Polling::SetChannelIndices,
+        Polling::GenerateParams,
+        Polling::GetMessages,
+        Polling::GetProcessor,
+        Polling::ProcessMessages,
       )
     end
 
