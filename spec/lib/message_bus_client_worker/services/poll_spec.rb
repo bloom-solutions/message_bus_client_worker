@@ -10,8 +10,7 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          "/message",
-          TestProc.to_s,
+          {"/message" => TestProc.to_s},
           false,
         )
 
@@ -43,8 +42,7 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          "/message",
-          TestProc.to_s,
+          {"/message" => TestProc.to_s},
           false,
         )
 
@@ -53,8 +51,7 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          "/message",
-          SaverProcessor.to_s,
+          {"/message" => SaverProcessor.to_s},
           false,
         )
 
