@@ -31,8 +31,8 @@ module MessageBusClientWorker
     context "recovery" do
       let!(:second_processor) do
         SaverProcessor = Class.new do
-          def self.call(payload)
-            REDIS.set(payload["name"], payload["data"])
+          def self.call(data, _)
+            REDIS.set(data["name"], data["data"])
           end
         end
       end

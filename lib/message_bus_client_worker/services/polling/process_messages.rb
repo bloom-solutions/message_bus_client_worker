@@ -14,7 +14,7 @@ module MessageBusClientWorker
           )
 
           SetLastId.(c.host, channel, message["message_id"])
-          processor_class.(message["data"])
+          processor_class.(message["data"], message)
         end
       end
 
