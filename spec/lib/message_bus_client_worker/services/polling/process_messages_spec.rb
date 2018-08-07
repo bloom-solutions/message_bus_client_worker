@@ -23,8 +23,8 @@ module MessageBusClientWorker
         described_class.execute(
           host: "https://under.pressure",
           subscriptions: {
-            "/David" => DavidProcessor.to_s,
-            "/Freddie" => FreddieProcessor.to_s,
+            "/David" => { processor: DavidProcessor.to_s },
+            "/Freddie" => { processor: FreddieProcessor.to_s },
           },
           messages: [
             {

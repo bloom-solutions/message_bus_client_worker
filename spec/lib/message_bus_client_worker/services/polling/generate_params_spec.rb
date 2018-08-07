@@ -10,8 +10,8 @@ module MessageBusClientWorker
         resulting_ctx = described_class.execute(
           host: "https://host.com",
           subscriptions: {
-            "/messages" => "DoesNotMatterInThisSpec",
-            "/points" => "DoesNotMatterInThisSpec",
+            "/messages" => { processor: "DoesNotMatterInThisSpec" },
+            "/points" => { processor: "DoesNotMatterInThisSpec" },
           }
         )
 

@@ -10,11 +10,13 @@ module MessageBusClientWorker
     end
 
     it "delegates work to Poll" do
+      params = { processor: "Processor" }
+
       expect(Poll).to receive(:call).
-        with("https://host.com", {"/messages" => "Processor"}, true)
+        with("https://host.com", {"/messages" => params }, true)
 
       described_class.new.
-        perform("https://host.com", {"/messages" => "Processor"}, true)
+        perform("https://host.com", {"/messages" => params }, true)
     end
 
   end
