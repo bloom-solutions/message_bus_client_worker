@@ -14,6 +14,7 @@ require "message_bus_client_worker/workers/subscription_workers/generate_params"
 require "message_bus_client_worker/workers/subscription_workers/get_messages"
 require "message_bus_client_worker/workers/subscription_workers/get_processor"
 require "message_bus_client_worker/workers/subscription_workers/process_messages"
+require "message_bus_client_worker/services/poll"
 
 module MessageBusClientWorker
 
