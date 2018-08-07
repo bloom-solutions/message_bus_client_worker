@@ -5,11 +5,7 @@ module MessageBusClientWorker
     RSpec.describe GenerateParams do
 
       it "generates the channel indices with from the last message that was processed, if any" do
-        ProcessMessages.set_last_id_in_redis(
-          host: "https://host.com",
-          channel: "/points",
-          message_id: 20,
-        )
+        SetLastId.("https://host.com", "/points", 20)
 
         resulting_ctx = described_class.execute(
           host: "https://host.com",
