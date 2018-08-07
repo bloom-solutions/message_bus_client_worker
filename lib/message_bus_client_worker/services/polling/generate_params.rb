@@ -18,7 +18,7 @@ module MessageBusClientWorker
       end
 
       def self.get_last_id_from_redis(host:, channel:)
-        hash_key = "#{host}-#{channel}"
+        hash_key = GenLastIdKey.(host, channel)
 
         id = Sidekiq.redis do |r|
           r.hget(CHANNEL_INDICES_NAME, hash_key)

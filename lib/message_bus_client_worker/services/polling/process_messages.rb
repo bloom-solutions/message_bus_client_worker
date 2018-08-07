@@ -20,7 +20,7 @@ module MessageBusClientWorker
       end
 
       def self.set_last_id_in_redis(host:, channel:, message_id:)
-        hash_key = "#{host}-#{channel}"
+        hash_key = GenLastIdKey.(host, channel)
 
         Sidekiq.redis do |r|
           r.hset(GenerateParams::CHANNEL_INDICES_NAME, hash_key, message_id)
