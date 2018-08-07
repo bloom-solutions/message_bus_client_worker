@@ -47,16 +47,8 @@ module MessageBusClientWorker
 
         expect(REDIS.get("David")).to eq "Bowie"
         expect(REDIS.get("Freddie")).to eq "Mercury"
-        david_last_id = GenerateParams.get_last_id_from_redis(
-          host: "https://under.pressure",
-          channel: "/David",
-        )
-        expect(david_last_id).to eq "3"
-        freddie_last_id = GenerateParams.get_last_id_from_redis(
-          host: "https://under.pressure",
-          channel: "/Freddie",
-        )
-        expect(freddie_last_id).to eq "32"
+        expect(GetLastId.("https://under.pressure", "/David")).to eq "3"
+        expect(GetLastId.("https://under.pressure","/Freddie")).to eq "32"
       end
 
     end
