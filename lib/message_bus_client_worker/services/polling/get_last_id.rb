@@ -6,7 +6,7 @@ module MessageBusClientWorker
         hash_key = GenLastIdKey.(host, channel)
 
         id = Sidekiq.redis do |r|
-          r.hget(GenerateParams::CHANNEL_INDICES_NAME, hash_key)
+          r.hget(SetLastId::CHANNEL_INDICES_NAME, hash_key)
         end
 
         id || "0"

@@ -3,7 +3,6 @@ module MessageBusClientWorker
     class GenerateParams
       extend LightService::Action
 
-      CHANNEL_INDICES_NAME = "message_bus_client_worker_channel_indices".freeze
       expects :host, :subscriptions
       promises :params, :form_params
 
