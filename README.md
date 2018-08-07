@@ -76,7 +76,7 @@ Every time `MessageBusClientWorker::EnqueuingWorker` is enqueued, `EnqueuingWork
 
 - [ ] long-poll with streaming, or if streaming is not supported...
 - [ ] long-poll, or if long-polling is not supported...
-- [x] poll
+- [x] short-poll
 
 ## Development
 
