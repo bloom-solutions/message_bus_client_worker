@@ -3,26 +3,27 @@ module MessageBusClientWorker
     class ProcessMessages
       extend LightService::Action
 
-      expects :host, :channel, :messages, :processor_class, :channel_indices_name
+      expects :host, :subscriptions, :messages
 
       executed do |c|
         c.messages.each do |message|
+          channel = message["channel"]
+          processor_class = Kernel.const_get(c.subscriptions[channel])
+
           set_last_id_in_redis(
             host: c.host,
-            channel: c.channel,
-            message: message,
-            redis_channel: c.channel_indices_name
+            channel: channel,
+            message_id: message["message_id"],
           )
-          c.processor_class.(message["data"])
+          processor_class.(message["data"])
         end
       end
 
-      def self.set_last_id_in_redis(host:, channel:, message:, redis_channel:)
+      def self.set_last_id_in_redis(host:, channel:, message_id:)
         hash_key = "#{host}-#{channel}"
-        message_id = message["message_id"]
 
         Sidekiq.redis do |r|
-          r.hset(redis_channel, hash_key, message_id)
+          r.hset(GenerateParams::CHANNEL_INDICES_NAME, hash_key, message_id)
         end
       end
     end

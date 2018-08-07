@@ -22,18 +22,14 @@ module MessageBusClientWorker
 
       expect(SubscriptionWorker).to have_enqueued_sidekiq_job(
         "https://chat.samsaffron.com",
-        "/message",
-        "MessageProcessor"
+        "/message" => "MessageProcessor",
       )
       expect(SubscriptionWorker).to have_enqueued_sidekiq_job(
         "https://other.com",
-        "/fake",
-        "FakeProcessor"
-      )
-      expect(SubscriptionWorker).to have_enqueued_sidekiq_job(
-        "https://other.com",
-        "/still_fake",
-        "StillFakeProcessor"
+        {
+          "/fake" => "FakeProcessor",
+          "/still_fake" => "StillFakeProcessor",
+        }
       )
     end
 

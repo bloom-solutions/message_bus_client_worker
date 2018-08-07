@@ -4,8 +4,8 @@ module MessageBusClientWorker
     include Sidekiq::Worker
     sidekiq_options retry: false
 
-    def perform(host, channel, processor, long=false)
-      Poll.(host, channel, processor, long)
+    def perform(host, subscriptions, long=false)
+      Poll.(host, subscriptions, long)
     end
 
   end
