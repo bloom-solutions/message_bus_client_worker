@@ -9,7 +9,7 @@ module MessageBusClientWorker
       executed do |c|
         uri = Addressable::URI.parse(c.host)
         uri.path = "/message-bus/#{c.client_id}/poll"
-        c.uri = uri
+        c.uri = uri.to_s
       end
     end
   end

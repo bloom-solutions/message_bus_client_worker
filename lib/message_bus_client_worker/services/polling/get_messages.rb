@@ -7,7 +7,7 @@ module MessageBusClientWorker
       promises :messages
 
       executed do |c|
-        body = HTTP.post(c.uri.to_s, params: c.params, form: c.form_params).body
+        body = HTTP.post(c.uri, params: c.params, form: c.form_params).body
         c.messages = JSON.parse(body.to_s)
       end
     end
