@@ -72,7 +72,11 @@ Sidekiq.options[:poll_interval] = 10
 
 Every time `MessageBusClientWorker::EnqueuingWorker` is enqueued, `EnqueuingWorker` attempts to enqueue a `MessageBusClientWorker::SubscriptionWorker` per channel that is found in `MessageBusClientWorker.configuration.subcriptions`. If there is a running worker that has a connection open to the channel, a job will **not** be enqueued, thanks to [sidekiq-unique-jobs](https://github.com/mhenrixon/sidekiq-unique-jobs).
 
-`SubscriptionWorker` will open a connection to the server, and attempt to long-poll. If there is no long polling, the job will complete, and the next one will run when `EnqueuingWorker` gets enqueued again.
+`SubscriptionWorker` will open a connection to the server, and try the following (not all have been implemented):
+
+- [ ] long-poll with streaming, or if streaming is not supported...
+- [ ] long-poll, or if long-polling is not supported...
+- [x] poll
 
 ## Development
 
