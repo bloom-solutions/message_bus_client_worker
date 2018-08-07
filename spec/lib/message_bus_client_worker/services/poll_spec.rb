@@ -66,5 +66,49 @@ module MessageBusClientWorker
       end
     end
 
+    context "using custom message_id" do
+      before do
+        OdinProcessor = Class.new do
+          def self.call(data, payload)
+            REDIS.set("message_id", payload["message_id"])
+          end
+        end
+
+        ThorProcessor = Class.new do
+          def self.call(data, payload)
+            REDIS.set(data["name"], data["data"])
+          end
+        end
+      end
+
+
+      it "makes a plain http call" do
+        random_key = SecureRandom.uuid
+        Publish.("Odin #{random_key}", "The Allfather #{random_key}")
+
+        described_class.(
+          CONFIG[:chat_server_url],
+          { "/message" =>
+            { processor: OdinProcessor.to_s }
+          },
+          false,
+        )
+
+        message_id = REDIS.get("message_id")
+        Publish.("Thor #{random_key}", "God of Thunder #{random_key}")
+
+        described_class.(
+          CONFIG[:chat_server_url],
+          { "/message" =>
+            { processor: ThorProcessor.to_s, message_id: message_id }
+          },
+          false,
+        )
+
+        expect(REDIS.get("Odin #{random_key}")).to be_nil
+        expect(REDIS.get("Thor #{random_key}")).to eq "God of Thunder #{random_key}"
+      end
+    end
+
   end
 end
