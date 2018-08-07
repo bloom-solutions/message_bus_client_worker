@@ -2,7 +2,7 @@
 
 Subscribe to [MessageBus](https://github.com/SamSaffron/message_bus) using Sidekiq workers. This gem was borne out of the noisy logs and difficult in debugging using [message_bus-client](https://github.com/lowjoel/message_bus-client). This gem aims to:
 
-- allow sane debugging by having thread-related code all over the calls to the MessageBus channel by relying on Sidekiq
+- allow sane debugging. Do not have thread-related code all over the code to the MessageBus channel. Rely on Sidekiq
 - keep subscriptions to 1 per channel. With current options, every web server process would start a thread that listened to the MessageBus channels.
 - do not unnecessarily add noise when starting the console like `rails console`
 - recover from downtime by keeping track of the last message it processed per channel
@@ -49,7 +49,7 @@ end
 ```ruby
 class ProcessMessage
   def self.call(payload)
-    payload # {"global_id":1478,"message_id":3,"channel":"/message","data":{"data":"hey","name":"joe"}}
+    payload # {"data":"hey","name":"joe"}
   end
 end
 ```
@@ -74,8 +74,8 @@ Every time `MessageBusClientWorker::EnqueuingWorker` is enqueued, `EnqueuingWork
 
 `SubscriptionWorker` will open a connection to the server, and try the following (not all have been implemented):
 
-- [ ] long-poll with streaming, or if streaming is not supported...
-- [ ] long-poll, or if long-polling is not supported...
+- [ ] long-poll with streaming, or if streaming is not supported by the server...
+- [ ] long-poll, or if long-polling is not supported by the server...
 - [x] short-poll
 
 ## Development
