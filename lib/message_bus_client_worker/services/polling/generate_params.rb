@@ -24,8 +24,7 @@ module MessageBusClientWorker
           r.hget(CHANNEL_INDICES_NAME, hash_key)
         end
 
-        return '0' if id.nil?
-        id
+        id || "0"
       end
     end
   end
