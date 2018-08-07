@@ -5,6 +5,7 @@ PATH
       addressable
       gem_config
       http
+      light-service
       sidekiq
 
 GEM
@@ -36,6 +37,8 @@ GEM
     http_parser.rb (0.6.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
+    light-service (0.11.0)
+      activesupport (>= 3.0)
     method_source (0.9.0)
     minitest (5.11.3)
     pry (0.11.3)

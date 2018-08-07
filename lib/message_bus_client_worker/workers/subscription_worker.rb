@@ -1,25 +1,26 @@
 module MessageBusClientWorker
   class SubscriptionWorker
-
     include Sidekiq::Worker
     sidekiq_options retry: false
 
-    def perform(host, channel, processor_class_name, long=true)
-      client_id = SecureRandom.uuid
-      uri = Addressable::URI.parse(host)
-      uri.path = "/message-bus/#{client_id}/poll"
+    extend LightService::Organizer
 
-      params = {dlp: "t"}
-      form_params = {channel => 0}
-      body = HTTP.post(uri.to_s, params: params, form: form_params).body
-
-      messages = JSON.parse(body.to_s)
-      processor_class = Kernel.const_get(processor_class_name)
-
-      messages.each do |message|
-        processor_class.(message["data"])
-      end
+    def self.call(host, channel, processor_class_name, long=true)
+      with(
+        host: host,
+        channel: channel,
+        processor_class_name: processor_class_name,
+        long: long,
+      ).reduce(
+        SubscriptionWorkers::GenerateClientId,
+        SubscriptionWorkers::GenerateURI,
+        SubscriptionWorkers::SetChannelIndices,
+        SubscriptionWorkers::GenerateParams,
+        SubscriptionWorkers::GetMessages,
+        SubscriptionWorkers::GetProcessor,
+        SubscriptionWorkers::ProcessMessages,
+      )
     end
-
   end
 end
+
