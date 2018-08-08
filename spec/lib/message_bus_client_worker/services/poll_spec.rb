@@ -11,7 +11,7 @@ module MessageBusClientWorker
         described_class.(
           CONFIG[:chat_server_url],
           { "/message" =>
-            { processor: TestProc.to_s }
+            { processor: TestProc.to_s, message_id: 0 }
           },
           false,
         )

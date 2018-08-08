@@ -12,8 +12,10 @@ module MessageBusClientWorker
         Polling::GenerateClientId,
         Polling::GenerateURI,
         Polling::GenerateParams,
-        Polling::GetMessages,
-        Polling::ProcessMessages,
+        Polling::GetPayloads,
+        iterate(:payloads, [
+          Polling::ProcessPayload,
+        ])
       )
     end
 
