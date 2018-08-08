@@ -55,8 +55,33 @@ The processor should look like this:
 
 ```ruby
 class ProcessMessage
-  def self.call(data, _) # or (data, payload)
-    payload # {"data":"hey","name":"joe"}
+  def self.call(data, payload)
+    # ...
+  end
+end
+```
+
+http://chat.samsaffron.com's `/message` channel returns JSON like this:
+
+```json
+[
+  {"global_id":1478,"message_id":3,"channel":"/message","data":{"data":"hey","name":"joe"}},
+  {"global_id":1479,"message_id":4,"channel":"/message","data":{"data":"what's up","name":"joe"}},
+  ...
+]
+```
+
+The processor you define will receive `call` for every element in the JSON. In `ProcessMessage` processor as seen above:
+
+- `data` would be the value of the "data" key as a Ruby hash, i.e. `{"data" => "hey","name" => "joe"}`
+- `payload` is the whole item as a Ruby hash, i.e. `{"global_id"=>1479, "message_id"=>4, "channel"=>"/message", "data"=>{"data"=>"what's up", "name"=>"joe"}}`
+
+If you don't care to see the whole payload, you can do the following:
+
+```ruby
+class ProcessMessage
+  def self.call(data, _)
+    # ...
   end
 end
 ```
