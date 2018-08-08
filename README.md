@@ -36,25 +36,67 @@ MessageBusClientWorker.configure do |c|
     #   "/b_channel" => "BChannelPayloadProcessor",
     # }
     "https://etc.com" => {
-      "/exchange_rates" => "ProcessExchangeRate",
-      "/messages" => "ProcessMessage",
+      "/exchange_rates" => {
+        processor: "ProcessExchangeRate",
+        message_id: 0,
+      },
+      "/messages" => { processor: "ProcessMessage" },
     },
     "https://someotherdomain.com" => {
-      "/errors" => "ProcessError",
+      "/errors" => { processor: "ProcessError" },
     },
   }
 end
 ```
 
+### Processor
+
+The processor should look like this:
+
 ```ruby
 class ProcessMessage
-  def self.call(payload)
-    payload # {"data":"hey","name":"joe"}
+  def self.call(data, payload)
+    # ...
   end
 end
 ```
 
-To keep the subscription alive if the worker dies or during restarts, use a gem like [sidekiq-cron](https://github.com/ondrejbartas/sidekiq-cron) and enqueue the `MessageBusClientWorker::EnqueuingWorker`:
+http://chat.samsaffron.com's `/message` channel returns JSON like this:
+
+```json
+[
+  {"global_id":1478,"message_id":3,"channel":"/message","data":{"data":"hey","name":"joe"}},
+  {"global_id":1479,"message_id":4,"channel":"/message","data":{"data":"what's up","name":"joe"}},
+  ...
+]
+```
+
+The processor you define will receive `call` for every element in the JSON. In `ProcessMessage` processor as seen above:
+
+- `data` would be the value of the "data" key as a Ruby hash, i.e. `{"data" => "hey","name" => "joe"}`
+- `payload` is the whole item as a Ruby hash, i.e. `{"global_id"=>1479, "message_id"=>4, "channel"=>"/message", "data"=>{"data"=>"what's up", "name"=>"joe"}}`
+
+If you don't care to see the whole payload, you can do the following:
+
+```ruby
+class ProcessMessage
+  def self.call(data, _)
+    # ...
+  end
+end
+```
+
+### `message_id`
+
+`message_id` defines where the worker should start reading from.
+
+- you do not want to use "-1" if you're short polling because no messages will be read and MessageBusClientWorker will not record the last `message_id` seen.
+- this is only used when nothing has been read before. If you put 0, but the last message that MessageBusClientWorker pulled had a `message_id` of `23`, then this gem will continue where it left off, and not read from 0
+- defaults to "-1"
+
+### Staying subscribed
+
+To keep the subscription alive if the worker dies, the app restarts, or the worker falls back to short-polling or long-polling without streaming, use a gem like [sidekiq-cron](https://github.com/ondrejbartas/sidekiq-cron) and enqueue the `MessageBusClientWorker::EnqueuingWorker`:
 
 ```yml
 message_bus_client_worker:
@@ -84,8 +126,7 @@ Copy the config and edit (if necessary)
 
 ```sh
 cp spec/config.yml{.sample,}
-docker-compose up sidekiq chat
-rspec spec
+docker-compose run gem bundle exec rspec spec
 ```
 
 ## Contributing

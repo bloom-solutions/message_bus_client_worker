@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     message_bus_client_worker (0.1.0)
+      activesupport
       addressable
       gem_config
       http
@@ -92,7 +93,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport
   bundler (~> 1.16)
   message_bus_client_worker!
   pry-byebug

@@ -1,14 +1,14 @@
 module MessageBusClientWorker
   module Polling
-    class GetMessages
+    class GetPayloads
       extend LightService::Action
 
       expects :params, :form_params, :uri
-      promises :messages
+      promises :payloads
 
       executed do |c|
         body = HTTP.post(c.uri, params: c.params, form: c.form_params).body
-        c.messages = JSON.parse(body.to_s)
+        c.payloads = JSON.parse(body.to_s)
       end
     end
   end
