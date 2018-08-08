@@ -4,15 +4,14 @@ module MessageBusClientWorker
   module Polling
     RSpec.describe ProcessPayload do
 
-      let!(:david_processor) do
-        DavidProcessor = Class.new do
+      before do
+        DavidProcessor ||= Class.new do
           def self.call(data, _)
             REDIS.set("David", data["name"])
           end
         end
-      end
-      let!(:freddie_processor) do
-        FreddieProcessor = Class.new do
+
+        FreddieProcessor ||= Class.new do
           def self.call(data, _)
             REDIS.set("Freddie", data["name"])
           end
