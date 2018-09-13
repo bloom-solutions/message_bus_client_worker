@@ -32,8 +32,10 @@ MessageBusClientWorker.configure do |c|
   c.subscriptions = {
     # Format is
     # "https://domain.com" => {
-    #   "/a_channel" => "AChannelPayloadProcessor",
-    #   "/b_channel" => "BChannelPayloadProcessor",
+    #   "/a_channel" => {
+    #     processor: "ProcessorClass",
+    #     message_id: 0,
+    #   }
     # }
     "https://etc.com" => {
       "/exchange_rates" => {
