@@ -9,6 +9,10 @@ module MessageBusClientWorker
       expect(described_class.sidekiq_options["lock"]).to eq :until_executed
     end
 
+    it "logs on unique conflict" do
+      expect(described_class.sidekiq_options["on_conflict"]).to eq :log
+    end
+
     it "considers the host the unique arg" do
       expect(described_class.sidekiq_options["unique_args"]).to eq :unique_args
 
