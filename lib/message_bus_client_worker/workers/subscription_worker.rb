@@ -12,8 +12,8 @@ module MessageBusClientWorker
       Poll.(host, subscriptions.with_indifferent_access, long)
     end
 
-    def self.unique_args(*args)
-      [args.first]
+    def self.unique_args(args)
+      args
     end
 
   end

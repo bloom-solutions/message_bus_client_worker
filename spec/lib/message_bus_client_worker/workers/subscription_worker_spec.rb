@@ -12,8 +12,8 @@ module MessageBusClientWorker
     it "considers the host the unique arg" do
       expect(described_class.sidekiq_options["unique_args"]).to eq :unique_args
 
-      unique_args = described_class.unique_args("host", {"channel" => {}})
-      expect(unique_args).to match_array(["host"])
+      unique_args = described_class.unique_args(["host", {"channel" => {}}])
+      expect(unique_args).to match_array(["host", {"channel" => {}}])
     end
 
     it "delegates work to Poll" do
