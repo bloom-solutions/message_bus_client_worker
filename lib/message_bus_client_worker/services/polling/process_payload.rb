@@ -15,6 +15,8 @@ module MessageBusClientWorker
         processor_class = Kernel.const_get(channel_config[:processor])
 
         SetLastId.(c.host, channel, payload["message_id"])
+
+        Rails.logger.info "Will process payload: #{payload} with class #{processor_class}"
         processor_class.(payload["data"], payload)
       end
 
