@@ -9,8 +9,17 @@ module MessageBusClientWorker
       on_conflict: :log,
     )
 
-    def perform(host, subscriptions, long=false)
-      Poll.(host, subscriptions.with_indifferent_access, long)
+    def perform(host, subscriptions, long = false)
+      log(host, subscriptions)
+      Poll.call(host, subscriptions.with_indifferent_access, long)
+    end
+
+    private
+
+    def log(host, subscriptions)
+      subscriptions.each do |subscription|
+        Sidekiq::Logging.logger.info "Enqueued #{host} for #{subscription}"
+      end
     end
 
     def self.unique_args(args)
@@ -19,4 +28,3 @@ module MessageBusClientWorker
 
   end
 end
-
