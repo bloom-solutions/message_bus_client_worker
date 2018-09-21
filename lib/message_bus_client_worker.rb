@@ -28,4 +28,15 @@ module MessageBusClientWorker
     has :subscriptions, classes: Hash
   end
 
+  def self.config_sidekiq!
+    Sidekiq.configure_server do |config|
+      config.death_handlers << ->(job, _ex) do
+        return unless job['unique_digest']
+        SidekiqUniqueJobs::Digests.del(digest: job['unique_digest'])
+      end
+    end
+  end
+
 end
+
+MessageBusClientWorker.config_sidekiq!
