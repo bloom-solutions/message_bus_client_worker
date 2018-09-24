@@ -1,13 +1,13 @@
 PATH
   remote: .
   specs:
-    message_bus_client_worker (0.2.2)
+    message_bus_client_worker (0.3.0)
       activesupport
       addressable
       gem_config
       http
       light-service
-      sidekiq
+      sidekiq (>= 5.1)
       sidekiq-unique-jobs (>= 6.0.0)
 
 GEM
