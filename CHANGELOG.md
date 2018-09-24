@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Log details of enqueued subscription
 
+### Fixed
+- Remove locks when jobs die
+
 ## [0.2.2] - 2018-09-15
 ### Fixed
 - Problem where only one of two subscription workers were enqueued. Previous "fix" didn't work
