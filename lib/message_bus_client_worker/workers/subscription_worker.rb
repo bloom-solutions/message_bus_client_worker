@@ -4,9 +4,6 @@ module MessageBusClientWorker
     include Sidekiq::Worker
     sidekiq_options(
       retry: false,
-      lock: :until_executed,
-      unique_args: :unique_args,
-      on_conflict: :log,
     )
 
     def perform(host, subscriptions, long = false)
