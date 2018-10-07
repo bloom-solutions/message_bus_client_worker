@@ -3,7 +3,7 @@ module MessageBusClientWorker
 
     include Sidekiq::Worker
     sidekiq_options(
-      retry: false,
+      retry: 0,
       lock: :until_executed,
       unique_args: :unique_args,
       on_conflict: :log,
