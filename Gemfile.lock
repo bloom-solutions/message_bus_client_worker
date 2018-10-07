@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    message_bus_client_worker (0.3.0)
+    message_bus_client_worker (0.3.1)
       activesupport
       addressable
       gem_config
