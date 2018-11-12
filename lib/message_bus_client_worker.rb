@@ -1,6 +1,6 @@
 require "addressable"
+require "excon"
 require "gem_config"
-require "http"
 require "light-service"
 require "securerandom"
 require "sidekiq"
