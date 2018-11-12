@@ -7,8 +7,11 @@ module MessageBusClientWorker
       promises :payloads
 
       executed do |c|
-        body = HTTP.post(c.uri, params: c.params, form: c.form_params).body
-        c.payloads = JSON.parse(body.to_s)
+        response = Excon.post(c.uri, {
+          query: c.params,
+          body: URI.encode_www_form(c.form_params)
+        })
+        c.payloads = JSON.parse(response.body.to_s)
       end
     end
   end

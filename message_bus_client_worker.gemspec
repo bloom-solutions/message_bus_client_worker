@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "gem_config"
   spec.add_dependency "sidekiq", ">= 5.1"
-  spec.add_dependency "http"
+  spec.add_dependency "excon"
   spec.add_dependency "addressable"
   spec.add_dependency "light-service"
   spec.add_dependency "sidekiq-unique-jobs", ">= 6.0.0"
