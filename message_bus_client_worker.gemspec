@@ -37,6 +37,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "light-service"
   spec.add_dependency "sidekiq-unique-jobs", ">= 6.0.0"
   spec.add_dependency "activesupport"
+  spec.add_dependency "circuitbox", ">= 1.0"
+  spec.add_dependency "http"
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"

@@ -1,4 +1,5 @@
 require "addressable"
+require "circuitbox"
 require "excon"
 require "gem_config"
 require "light-service"
@@ -7,6 +8,11 @@ require "sidekiq"
 require "sidekiq-unique-jobs"
 require "active_support/core_ext/hash/indifferent_access"
 require "active_support/core_ext/string/inflections"
+
+# exceptions raised by Excon when calls fail are in http
+# but for some reason, I need to require the gem myself
+require "http"
+
 require "message_bus_client_worker/version"
 require "message_bus_client_worker/workers/enqueuing_worker"
 require "message_bus_client_worker/workers/subscription_worker"

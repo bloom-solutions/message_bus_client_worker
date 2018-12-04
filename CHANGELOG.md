@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Changed
 - Change to excon. We know how to stream with that (make way for long polling)
+- Do not immediately raise errors when there's a problem connecting
 
 ## [0.3.1] - 2018-10-07
 ### Fixed
