@@ -4,7 +4,6 @@ require "gem_config"
 require "light-service"
 require "securerandom"
 require "sidekiq"
-require "sidekiq-unique-jobs"
 require "active_support/core_ext/hash/indifferent_access"
 require "active_support/core_ext/string/inflections"
 require "message_bus_client_worker/version"
@@ -28,15 +27,4 @@ module MessageBusClientWorker
     has :subscriptions, classes: Hash
   end
 
-  def self.config_sidekiq!
-    Sidekiq.configure_server do |config|
-      config.death_handlers << ->(job, _ex) do
-        return unless job['unique_digest']
-        SidekiqUniqueJobs::Digests.del(digest: job['unique_digest'])
-      end
-    end
-  end
-
 end
-
-MessageBusClientWorker.config_sidekiq!

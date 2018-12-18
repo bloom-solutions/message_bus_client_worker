@@ -2,12 +2,7 @@ module MessageBusClientWorker
   class SubscriptionWorker
 
     include Sidekiq::Worker
-    sidekiq_options(
-      retry: 0,
-      lock: :until_executed,
-      unique_args: :unique_args,
-      on_conflict: :log,
-    )
+    sidekiq_options retry: 0
 
     def perform(host, subscriptions, long = false)
       log(host, subscriptions)

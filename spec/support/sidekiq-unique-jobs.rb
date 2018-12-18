@@ -1,1 +1,0 @@
-SidekiqUniqueJobs.config.enabled = false
