@@ -114,7 +114,7 @@ Sidekiq.options[:poll_interval] = 10
 
 ## How it Works
 
-Every time `MessageBusClientWorker::EnqueuingWorker` is enqueued, `EnqueuingWorker` attempts to enqueue a `MessageBusClientWorker::SubscriptionWorker` per channel that is found in `MessageBusClientWorker.configuration.subcriptions`. If there is a running worker that has a connection open to the channel, a job will **not** be enqueued, thanks to [sidekiq-unique-jobs](https://github.com/mhenrixon/sidekiq-unique-jobs).
+Every time `MessageBusClientWorker::EnqueuingWorker` is enqueued, `EnqueuingWorker` attempts to enqueue a `MessageBusClientWorker::SubscriptionWorker` per channel that is found in `MessageBusClientWorker.configuration.subcriptions`.
 
 `SubscriptionWorker` will open a connection to the server, and try the following (not all have been implemented):
 
