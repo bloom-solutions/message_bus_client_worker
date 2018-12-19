@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Change to excon. We know how to stream with that (make way for long polling)
 
+### Fixed
+- Remove SidekiqUniqueJobs that sometimes caused this to never run
+
 ## [0.3.1] - 2018-10-07
 ### Fixed
 - SubscriptionWorker retry is `0` so death handlers are executed
