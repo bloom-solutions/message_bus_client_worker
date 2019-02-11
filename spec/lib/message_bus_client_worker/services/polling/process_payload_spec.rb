@@ -22,8 +22,10 @@ module MessageBusClientWorker
         described_class.execute(
           host: "https://under.pressure",
           subscriptions: {
-            "/David" => { processor: DavidProcessor.to_s },
-            "/Freddie" => { processor: FreddieProcessor.to_s },
+            channels: {
+              "/David" => { processor: DavidProcessor.to_s },
+              "/Freddie" => { processor: FreddieProcessor.to_s },
+            }
           },
           payload: {
             "channel" => "/David",
@@ -38,8 +40,10 @@ module MessageBusClientWorker
         described_class.execute(
           host: "https://under.pressure",
           subscriptions: {
-            "/David" => { processor: DavidProcessor.to_s },
-            "/Freddie" => { processor: FreddieProcessor.to_s },
+            channels: {
+              "/David" => { processor: DavidProcessor.to_s },
+              "/Freddie" => { processor: FreddieProcessor.to_s },
+            }
           },
           payload: {
             "channel" => "/Freddie",
@@ -54,8 +58,10 @@ module MessageBusClientWorker
         described_class.execute(
           host: "https://under.pressure",
           subscriptions: {
-            "/David" => { processor: DavidProcessor.to_s },
-            "/Freddie" => { processor: FreddieProcessor.to_s },
+            channels: {
+              "/David" => { processor: DavidProcessor.to_s },
+              "/Freddie" => { processor: FreddieProcessor.to_s },
+            }
           },
           payload: {
             "channel" => "/Freddie",
@@ -74,7 +80,9 @@ module MessageBusClientWorker
             described_class.execute(
               host: "https://under.pressure",
               subscriptions: {
-                "/David" => { processor: DavidProcessor.to_s },
+                channels: {
+                  "/David" => { processor: DavidProcessor.to_s },
+                },
               },
               payload: {
                 "channel" => "/__status",
