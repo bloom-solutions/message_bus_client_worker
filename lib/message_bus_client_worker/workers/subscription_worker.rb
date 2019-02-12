@@ -12,8 +12,8 @@ module MessageBusClientWorker
     private
 
     def log(host, subscriptions)
-      subscriptions.each do |subscription|
-        Sidekiq::Logging.logger.info "Enqueued #{host} for #{subscription}"
+      subscriptions.each do |key, subscription|
+        Sidekiq::Logging.logger.info "Enqueued #{host} for #{subscription[:channels]}"
       end
     end
 

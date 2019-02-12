@@ -38,14 +38,21 @@ MessageBusClientWorker.configure do |c|
     #   }
     # }
     "https://etc.com" => {
-      "/exchange_rates" => {
-        processor: "ProcessExchangeRate",
-        message_id: 0,
+      headers: {
+        "Authorization" => "Bearer #{ENV["MYTOKEN"]}",
       },
-      "/messages" => { processor: "ProcessMessage" },
+      channels: {
+        "/exchange_rates" => {
+          processor: "ProcessExchangeRate",
+          message_id: 0,
+        },
+        "/messages" => { processor: "ProcessMessage" },
+      }
     },
     "https://someotherdomain.com" => {
-      "/errors" => { processor: "ProcessError" },
+      channels: {
+        "/errors" => { processor: "ProcessError" },
+      }
     },
   }
 end

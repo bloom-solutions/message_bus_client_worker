@@ -11,6 +11,7 @@ module MessageBusClientWorker
       ).reduce(
         Polling::GenerateClientId,
         Polling::GenerateURI,
+        execute(->(c) { c[:headers] = c[:subscriptions][:headers] }),
         Polling::GenerateParams,
         Polling::GetPayloads,
         iterate(:payloads, [

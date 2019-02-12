@@ -10,8 +10,10 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          { "/message" =>
-            { processor: TestProc.to_s, message_id: 0 }
+          { 
+            channels: {
+              "/message" => { processor: TestProc.to_s, message_id: 0 }
+            },
           },
           false,
         )
@@ -44,8 +46,10 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          { "/message" =>
-            { processor: TestProc.to_s }
+          {
+            channels: { 
+              "/message" => { processor: TestProc.to_s }
+            },
           },
           false,
         )
@@ -55,8 +59,10 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          { "/message" =>
-            { processor: SaverProcessor.to_s }
+          {
+            channels: {
+              "/message" => { processor: SaverProcessor.to_s }
+            },
           },
           false,
         )
@@ -88,8 +94,12 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          { "/message" =>
-            { processor: OdinProcessor.to_s }
+          { 
+            channels: {
+              "/message" => { 
+                processor: OdinProcessor.to_s 
+              }
+            }
           },
           false,
         )
@@ -99,8 +109,10 @@ module MessageBusClientWorker
 
         described_class.(
           CONFIG[:chat_server_url],
-          { "/message" =>
-            { processor: ThorProcessor.to_s, message_id: message_id }
+          {
+            channels: {
+              "/message" => { processor: ThorProcessor.to_s, message_id: message_id }
+            },
           },
           false,
         )

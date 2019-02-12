@@ -3,14 +3,18 @@ module MessageBusClientWorker
     class GetPayloads
       extend LightService::Action
 
-      expects :params, :form_params, :uri
+      expects :params, :form_params, :uri, :headers
       promises :payloads
 
       executed do |c|
-        response = Excon.post(c.uri, {
+        opts = {
           query: c.params,
-          body: URI.encode_www_form(c.form_params)
-        })
+          body: URI.encode_www_form(c.form_params),
+        }
+
+        opts.merge!(headers: c.headers) if c.headers
+        response = Excon.post(c.uri, opts)
+
         c.payloads = JSON.parse(response.body.to_s)
       end
     end

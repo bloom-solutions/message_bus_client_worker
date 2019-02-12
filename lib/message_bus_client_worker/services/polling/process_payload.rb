@@ -8,7 +8,7 @@ module MessageBusClientWorker
       executed do |c|
         payload = c.payload
         channel = payload["channel"]
-        channel_config = c.subscriptions[channel]
+        channel_config = c.subscriptions[:channels][channel]
 
         next c if channel_config.nil?
 

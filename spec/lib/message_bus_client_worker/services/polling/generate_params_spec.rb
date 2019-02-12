@@ -13,15 +13,18 @@ module MessageBusClientWorker
         resulting_ctx = described_class.execute(
           host: "https://host.com",
           subscriptions: {
-            "/messages" => { processor: "DoesNotMatterInThisSpec" },
-            "/points" => {
-              processor: "DoesNotMatterInThisSpec",
-              message_id: 15,
-            },
-            "/read-before" => {
-              processor: "DoesNotMatterInThisSpec",
-              message_id: 1,
-            },
+            headers: { "Authorization" => "Does not matter here" },
+            channels: {
+              "/messages" => { processor: "DoesNotMatterInThisSpec" },
+              "/points" => {
+                processor: "DoesNotMatterInThisSpec",
+                message_id: 15,
+              },
+              "/read-before" => {
+                processor: "DoesNotMatterInThisSpec",
+                message_id: 1,
+              },
+            }
           }
         )
 
