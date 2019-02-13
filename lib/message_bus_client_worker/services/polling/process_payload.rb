@@ -3,7 +3,15 @@ module MessageBusClientWorker
     class ProcessPayload
       extend LightService::Action
 
-      expects :host, :subscriptions, :payload
+      expects(
+        :host, 
+        :subscriptions, 
+        :payload, 
+        :headers
+      )
+
+      TWO_ARGS   = 2
+      THREE_ARGS = 3
 
       executed do |c|
         payload = c.payload
@@ -13,9 +21,18 @@ module MessageBusClientWorker
         next c if channel_config.nil?
 
         processor_class = Kernel.const_get(channel_config[:processor])
-
         SetLastId.(c.host, channel, payload["message_id"])
-        processor_class.(payload["data"], payload)
+
+        data = payload["data"]
+
+        case processor_class.method(:call).arity
+        when TWO_ARGS
+          processor_class.(data, payload)
+        when THREE_ARGS
+          processor_class.(data, payload, c.headers)
+        else
+          processor_class.(data)
+        end
       end
 
     end

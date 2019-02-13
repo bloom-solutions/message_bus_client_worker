@@ -64,7 +64,7 @@ The processor should look like this:
 
 ```ruby
 class ProcessMessage
-  def self.call(data, payload)
+  def self.call(data, payload, headers)
     # ...
   end
 end
