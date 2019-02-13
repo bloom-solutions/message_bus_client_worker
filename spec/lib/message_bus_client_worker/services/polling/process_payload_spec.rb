@@ -12,7 +12,7 @@ module MessageBusClientWorker
         end
 
         FreddieProcessor ||= Class.new do
-          def self.call(data, _)
+          def self.call(data, _, _)
             REDIS.set("Freddie", data["name"])
           end
         end
@@ -32,6 +32,7 @@ module MessageBusClientWorker
             "message_id" => 3,
             "data" => {"name" => "Bowie"},
           },
+          headers: nil,
         )
 
         expect(REDIS.get("David")).to eq "Bowie"
@@ -50,6 +51,7 @@ module MessageBusClientWorker
             "message_id" => 31,
             "data" => {"name" => "Merc"},
           },
+          headers: { "Accept" => "application/json" },
         )
 
         expect(REDIS.get("Freddie")).to eq "Merc"
@@ -67,7 +69,8 @@ module MessageBusClientWorker
             "channel" => "/Freddie",
             "message_id" => 32,
             "data" => {"name" => "Mercury"},
-          }
+          },
+          headers: { "Authorization" => "Bearer myself" },
         )
 
         expect(REDIS.get("Freddie")).to eq "Mercury"
@@ -87,7 +90,8 @@ module MessageBusClientWorker
               payload: {
                 "channel" => "/__status",
                 "message_id" => "-1",
-              }
+              },
+              headers: nil,
             )
           end.to_not raise_error
         end
