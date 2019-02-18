@@ -5,15 +5,15 @@ module MessageBusClientWorker
     sidekiq_options retry: 0
 
     def perform(host, subscriptions, long = false)
-      log(host, subscriptions)
+      log(host, subscriptions.with_indifferent_access)
       Poll.call(host, subscriptions.with_indifferent_access, long)
     end
 
     private
 
     def log(host, subscriptions)
-      subscriptions.each do |key, subscription|
-        Sidekiq::Logging.logger.info "Enqueued #{host} for #{subscription[:channels]}"
+      subscriptions[:channels].each do |channel, _|
+        Sidekiq::Logging.logger.info "Enqueued #{host} for #{channel}"
       end
     end
 
