@@ -4,6 +4,7 @@ require "gem_config"
 require "light-service"
 require "securerandom"
 require "sidekiq"
+require "securerandom"
 require "active_support/core_ext/hash/indifferent_access"
 require "active_support/core_ext/string/inflections"
 require "message_bus_client_worker/version"
@@ -25,6 +26,7 @@ module MessageBusClientWorker
 
   with_configuration do
     has :subscriptions, classes: Hash
+    has :client_id, classes: [Proc, String], default: -> {SecureRandom.uuid}
   end
 
 end
