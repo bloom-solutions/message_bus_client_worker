@@ -16,4 +16,12 @@ RSpec.describe MessageBusClientWorker do
     expect(message_processor).to eq "MessageProcessor"
   end
 
+  it "allows customization for client_id" do
+    MessageBusClientWorker.configuration.client_id = -> {"client-id"}
+    expect(MessageBusClientWorker.configuration.client_id.()).to eq "client-id"
+
+    MessageBusClientWorker.configuration.client_id = "hi"
+    expect(MessageBusClientWorker.configuration.client_id).to eq "hi"
+  end
+
 end

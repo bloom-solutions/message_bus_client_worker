@@ -6,7 +6,8 @@ module MessageBusClientWorker
       promises :client_id
 
       executed do |c|
-        c.client_id = SecureRandom.uuid
+        c.client_id = client_id = MessageBusClientWorker.configuration.client_id
+        c.client_id = client_id.() if client_id.respond_to?(:call)
       end
     end
   end
