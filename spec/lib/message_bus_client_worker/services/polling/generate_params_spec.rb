@@ -9,9 +9,12 @@ module MessageBusClientWorker
         "last recorded id, configured custom id, and finally -1",
         "unique to the host, channel, and headers"
       ].join) do
-        SetLastId.("https://host.com", "/points", 30, {
+        SetLastId.(
+          host: "https://host.com",
+          channel: "/points",
+          message_id: 30,
           headers: { "Authorization" => "Bearer User1" },
-        })
+        )
 
         result1 = described_class.execute(
           host: "https://host.com",
