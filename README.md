@@ -7,6 +7,8 @@ Subscribe to [MessageBus](https://github.com/SamSaffron/message_bus) using Sidek
 - do not unnecessarily add noise when starting the console like `rails console`
 - recover from downtime by keeping track of the last message it processed per channel
 
+This gem does **not** promise that the message are processed only once. You must put safeguards in place if it is imperative that messages are not processed more than once.
+
 ## Installation
 
 Add this line to your application's Gemfile:
