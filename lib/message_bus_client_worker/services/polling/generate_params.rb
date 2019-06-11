@@ -16,7 +16,13 @@ module MessageBusClientWorker
           channel = sub[0]
           custom_message_id = sub[1][:message_id] ? sub[1][:message_id].to_s : nil
 
-          hash[channel] = GetLastId.(c.host, channel, headers: c.headers) ||
+          last_id_in_memory = GetLastId.(
+            host: c.host,
+            channel: channel,
+            headers: c.headers,
+          )
+
+          hash[channel] = last_id_in_memory ||
             custom_message_id ||
             DEFAULT_MESSAGE_ID
         end

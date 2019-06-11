@@ -36,7 +36,8 @@ module MessageBusClientWorker
         )
 
         expect(REDIS.get("David")).to eq "Bowie"
-        expect(GetLastId.("https://under.pressure", "/David")).to eq "3"
+        last_id = GetLastId.(host: "https://under.pressure", channel: "/David")
+        expect(last_id).to eq "3"
 
         described_class.execute(
           host: "https://under.pressure",
@@ -55,9 +56,11 @@ module MessageBusClientWorker
         )
 
         expect(REDIS.get("Freddie")).to eq "Merc"
-        last_id = GetLastId.("https://under.pressure", "/Freddie", {
+        last_id = GetLastId.(
+          host: "https://under.pressure",
+          channel: "/Freddie",
           headers: {"Accept" => "application/json"},
-        })
+        )
         expect(last_id).to eq "31"
 
         described_class.execute(
@@ -77,9 +80,11 @@ module MessageBusClientWorker
         )
 
         expect(REDIS.get("Freddie")).to eq "Mercury"
-        last_id = GetLastId.("https://under.pressure", "/Freddie", {
+        last_id = GetLastId.(
+          host: "https://under.pressure",
+          channel: "/Freddie",
           headers: { "Authorization" => "Bearer myself" },
-        })
+        )
         expect(last_id).to eq "32"
       end
 
