@@ -7,13 +7,18 @@ module MessageBusClientWorker
       it([
         "sets form_params with channel indices in priority:",
         "last recorded id, configured custom id, and finally -1",
+        "unique to the host, channel, and headers"
       ].join) do
-        SetLastId.("https://host.com", "/points", 20)
+        SetLastId.(
+          host: "https://host.com",
+          channel: "/points",
+          message_id: 30,
+          headers: { "Authorization" => "Bearer User1" },
+        )
 
-        resulting_ctx = described_class.execute(
+        result1 = described_class.execute(
           host: "https://host.com",
           subscriptions: {
-            headers: { "Authorization" => "Does not matter here" },
             channels: {
               "/messages" => { processor: "DoesNotMatterInThisSpec" },
               "/points" => {
@@ -25,12 +30,28 @@ module MessageBusClientWorker
                 message_id: 1,
               },
             }
-          }
+          },
+          headers: { "Authorization" => "Bearer User1" },
         )
 
-        expect(resulting_ctx.form_params["/messages"]).to eq "-1"
-        expect(resulting_ctx.form_params["/points"]).to eq "20"
-        expect(resulting_ctx.form_params["/read-before"]).to eq "1"
+        expect(result1.form_params["/messages"]).to eq "-1"
+        expect(result1.form_params["/points"]).to eq "30"
+        expect(result1.form_params["/read-before"]).to eq "1"
+
+        result2 = described_class.execute(
+          host: "https://host.com",
+          subscriptions: {
+            channels: {
+              "/points" => {
+                processor: "DoesNotMatterInThisSpec",
+                message_id: 5,
+              },
+            }
+          },
+          headers: { "Authorization" => "Bearer User2" },
+        )
+
+        expect(result2.form_params["/points"]).to eq "5"
       end
 
     end

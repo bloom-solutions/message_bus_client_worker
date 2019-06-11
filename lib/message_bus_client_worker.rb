@@ -1,4 +1,5 @@
 require "addressable"
+require "digest"
 require "excon"
 require "gem_config"
 require "light-service"
