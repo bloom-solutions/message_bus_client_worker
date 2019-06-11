@@ -13,8 +13,10 @@ module MessageBusClientWorker
 
         c.params = { dlp: 't' }
         c.form_params = channels.each_with_object({}) do |sub, hash|
+          channel = sub[0]
           custom_message_id = sub[1][:message_id] ? sub[1][:message_id].to_s : nil
-          hash[sub[0]] = GetLastId.(c.host, sub[0]) ||
+
+          hash[channel] = GetLastId.(c.host, channel) ||
             custom_message_id ||
             DEFAULT_MESSAGE_ID
         end
