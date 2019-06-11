@@ -3,7 +3,7 @@ module MessageBusClientWorker
     class GenerateParams
       extend LightService::Action
 
-      expects :host, :subscriptions
+      expects :host, :subscriptions, :headers
       promises :params, :form_params
 
       DEFAULT_MESSAGE_ID = "-1".freeze
@@ -16,7 +16,7 @@ module MessageBusClientWorker
           channel = sub[0]
           custom_message_id = sub[1][:message_id] ? sub[1][:message_id].to_s : nil
 
-          hash[channel] = GetLastId.(c.host, channel) ||
+          hash[channel] = GetLastId.(c.host, channel, headers: c.headers) ||
             custom_message_id ||
             DEFAULT_MESSAGE_ID
         end

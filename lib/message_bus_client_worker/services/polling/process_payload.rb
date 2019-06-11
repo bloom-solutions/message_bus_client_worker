@@ -21,7 +21,7 @@ module MessageBusClientWorker
         next c if channel_config.nil?
 
         processor_class = Kernel.const_get(channel_config[:processor])
-        SetLastId.(c.host, channel, payload["message_id"])
+        SetLastId.(c.host, channel, payload["message_id"], headers: c.headers)
 
         data = payload["data"]
 

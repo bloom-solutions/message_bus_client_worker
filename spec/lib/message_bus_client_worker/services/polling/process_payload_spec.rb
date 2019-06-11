@@ -55,7 +55,10 @@ module MessageBusClientWorker
         )
 
         expect(REDIS.get("Freddie")).to eq "Merc"
-        expect(GetLastId.("https://under.pressure", "/Freddie")).to eq "31"
+        last_id = GetLastId.("https://under.pressure", "/Freddie", {
+          headers: {"Accept" => "application/json"},
+        })
+        expect(last_id).to eq "31"
 
         described_class.execute(
           host: "https://under.pressure",
@@ -74,7 +77,10 @@ module MessageBusClientWorker
         )
 
         expect(REDIS.get("Freddie")).to eq "Mercury"
-        expect(GetLastId.("https://under.pressure","/Freddie")).to eq "32"
+        last_id = GetLastId.("https://under.pressure", "/Freddie", {
+          headers: { "Authorization" => "Bearer myself" },
+        })
+        expect(last_id).to eq "32"
       end
 
       context "given a payload with a channel not being watched" do
