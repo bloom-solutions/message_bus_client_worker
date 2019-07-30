@@ -34,10 +34,15 @@ MessageBusClientWorker.configure do |c|
   c.subscriptions = {
     # Format is
     # "https://domain.com" => {
-    #   "/a_channel" => {
-    #     processor: "ProcessorClass",
-    #     message_id: 0,
-    #   }
+    #   headers: {
+    #     "Some header" => "only if you want",
+    #   },
+    #   channels: {
+    #     "/a_channel" => {
+    #       processor: "ProcessorClass",
+    #       message_id: 0,
+    #     }
+    #   },
     # }
     "https://etc.com" => {
       headers: {
