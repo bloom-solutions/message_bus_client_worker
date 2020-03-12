@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    message_bus_client_worker (1.2.1)
+    message_bus_client_worker (1.2.2)
       activesupport
       addressable
       excon
