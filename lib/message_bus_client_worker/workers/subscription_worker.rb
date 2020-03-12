@@ -13,7 +13,7 @@ module MessageBusClientWorker
 
     def log(host, subscriptions)
       subscriptions[:channels].each do |channel, _|
-        Sidekiq::Logging.logger.info "Enqueued #{host} for #{channel}"
+        logger.info "Enqueued #{host} for #{channel}"
       end
     end
 

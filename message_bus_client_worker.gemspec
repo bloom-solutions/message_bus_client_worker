@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "gem_config"
-  spec.add_dependency "sidekiq", ">= 5.1", "< 6"
+  spec.add_dependency "sidekiq", "~> 6.0"
   spec.add_dependency "excon"
   spec.add_dependency "addressable"
   spec.add_dependency "light-service"
