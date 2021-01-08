@@ -24,4 +24,53 @@ RSpec.describe MessageBusClientWorker do
     expect(MessageBusClientWorker.configuration.client_id).to eq "hi"
   end
 
+  describe ".subscribe" do
+    context "no subscriptions" do
+      it "sets the subscription" do
+        described_class.configuration.subscriptions = nil
+
+        described_class.subscribe("site.com", "config" => "hash")
+
+        expect(described_class.configuration.subscriptions["site.com"]).
+          to eq({"config" => "hash"})
+      end
+    end
+
+    context "subscriptions exist" do
+      it "adds the subscription" do
+        described_class.configuration.subscriptions = {
+          "first.com" => { "first" => "hash" }
+        }
+
+        described_class.subscribe("site.com", "config" => "hash")
+
+        subscriptions = described_class.configuration.subscriptions
+
+        aggregate_failures do
+          expect(subscriptions["first.com"]).to eq({"first" => "hash"})
+          expect(subscriptions["site.com"]).to eq({"config" => "hash"})
+        end
+      end
+    end
+
+    context "existing subscription exists" do
+      it "warns of the existing subscription and overwrites the subscription" do
+        described_class.configuration.subscriptions = {
+          "site.com" => { "first" => "hash" }
+        }
+
+        expect(described_class).to receive(:warn).
+          with(/\[MessageBusClientWorker\] site\.com already/)
+
+        described_class.subscribe("site.com", "config" => "hash")
+
+        subscriptions = described_class.configuration.subscriptions
+
+        aggregate_failures do
+          expect(subscriptions["site.com"]).to eq({"config" => "hash"})
+        end
+      end
+    end
+  end
+
 end
