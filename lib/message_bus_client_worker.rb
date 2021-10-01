@@ -26,8 +26,18 @@ module MessageBusClientWorker
   include GemConfig::Base
 
   with_configuration do
-    has :subscriptions, classes: Hash
+    has :subscriptions, classes: [Hash, NilClass]
     has :client_id, classes: [Proc, String], default: -> {SecureRandom.uuid}
+  end
+
+  def self.subscribe(host, options)
+    self.configuration.subscriptions ||= {}
+
+    if self.configuration.subscriptions.keys.include?(host)
+      warn "[#{self.name}] #{host} already configured, overwriting (called from #{caller.first})"
+    end
+
+    self.configuration.subscriptions[host] = options
   end
 
 end
