@@ -75,7 +75,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.16)
   message_bus_client_worker!
   pry-byebug
   rake (~> 10.0)
@@ -84,4 +83,4 @@ DEPENDENCIES
   wait
 
 BUNDLED WITH
-   1.17.3
+   2.2.28
