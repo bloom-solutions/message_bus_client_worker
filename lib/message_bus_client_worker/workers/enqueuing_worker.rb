@@ -6,7 +6,7 @@ module MessageBusClientWorker
 
     def perform
       MessageBusClientWorker.configuration.subscriptions.each do |host, subs|
-        SubscriptionWorker.perform_async(host, subs)
+        SubscriptionWorker.perform_async(host, subs.to_json)
       end
     end
 

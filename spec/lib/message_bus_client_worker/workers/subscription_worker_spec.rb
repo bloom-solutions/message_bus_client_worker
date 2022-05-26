@@ -5,18 +5,22 @@ module MessageBusClientWorker
 
     it { is_expected.to be_retryable(0) }
 
-    it "delegates work to Poll" do
-      params = { processor: "Processor" }
-      subscriptions = {
-        headers: { "Authorization" => "Bearer me" },
-        channels: { "/messages" => params }
-      }
+    describe "#perform" do
+      let(:params) { { processor: "Processor" } }
+      let(:subscriptions_hash) do
+        {
+          headers: { "Authorization" => "Bearer me" },
+          channels: { "/messages" => params }
+        }
+      end
 
-      expect(Poll).to receive(:call).
-        with("https://host.com", subscriptions, true)
+      it "delegates work to Poll" do
+        expect(Poll).to receive(:call).
+          with("https://host.com", subscriptions_hash, true)
 
-      described_class.new.
-        perform("https://host.com", subscriptions, true)
+        described_class.new.
+          perform("https://host.com", subscriptions_hash.to_json, true)
+      end
     end
 
   end
