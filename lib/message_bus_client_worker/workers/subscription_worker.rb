@@ -4,9 +4,11 @@ module MessageBusClientWorker
     include Sidekiq::Worker
     sidekiq_options retry: 0
 
-    def perform(host, subscriptions, long = false)
-      log(host, subscriptions.with_indifferent_access)
-      Poll.call(host, subscriptions.with_indifferent_access, long)
+    def perform(host, subscriptions_json, long = false)
+      subscriptions = JSON.parse(subscriptions_json).with_indifferent_access
+
+      log(host, subscriptions)
+      Poll.call(host, subscriptions, long)
     end
 
     private
